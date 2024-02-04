@@ -6,12 +6,22 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 
+import { CookiesProvider } from 'react-cookie';
+
+
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+
 import './index.css'
 import Dashboard from './routes/Dashboard.tsx';
 import Login from './routes/Login.tsx';
 import ErrorPage from './error/ErrorPage.tsx';
 import DashHome from './routes/DashHome.tsx';
 import Users from './routes/Users.tsx';
+import { ApolloProvider } from '@apollo/client';
+import { apolloClient } from './graphql.ts';
 
 const router = createBrowserRouter([
   {
@@ -39,8 +49,13 @@ const router = createBrowserRouter([
   }
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+    <React.StrictMode>
+        <ApolloProvider client={apolloClient}>
+            <CookiesProvider defaultSetOptions={{ path: "/" }}>
+                <RouterProvider router={router} />
+            </CookiesProvider>
+        </ApolloProvider>
+    </React.StrictMode>
+);
